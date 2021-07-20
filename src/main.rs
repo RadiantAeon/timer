@@ -7,11 +7,9 @@ use rodio::{Decoder, OutputStream, source::Source};
 use std::*;
 use std::convert::TryInto;
 use std::io::prelude::*;
-use home::home_dir;
 
 fn main() {
     let mut stdin = io::stdin();
-    let mut stdout = io::stdout();
     
     print!("Length of timer(in seconds): ");
     io::stdout().flush().unwrap();
@@ -46,5 +44,5 @@ fn main() {
     io::stdout().flush().unwrap();
 
     // Read a single byte and discard
-    let _ = stdin.read(&mut [0u8]).unwrap();
+    stdin.read(&mut [0u8]).unwrap();
 }
