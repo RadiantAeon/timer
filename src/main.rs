@@ -10,10 +10,20 @@ use std::io::prelude::*;
 
 fn main() {
     let mut stdin = io::stdin();
+    let ringtone_file_location = home::home_dir().unwrap().display().to_string() + "/ringtone.mp3";
     
+    // check if ringtone file exists
+    if !path::Path::new(&ringtone_file_location).exists() {
+        print!("Missing a ringtone in your home directory! Please add any ringtone you wished named ringtone.mp3 to your home directory, {}", home::home_dir().unwrap().display());
+        io::stdout().flush().unwrap();
+    
+        // Read a single byte and discard
+        stdin.read(&mut [0u8]).unwrap();
+    }
+    
+    // get timer duration
     print!("Length of timer(in seconds): ");
     io::stdout().flush().unwrap();
-    
     let time_to_wait: i32 = read!();
 
     // sleep for the timer duration
@@ -24,14 +34,7 @@ fn main() {
     let (_stream, stream_handle) = OutputStream::try_default().unwrap();
 
     // Load a sound from a file, using a path relative to home
-    let ringtone_file;
-    match home::home_dir() {
-        Some(path) => ringtone_file = BufReader::new(File::open(path.display().to_string() + "/ringtone.mp3").unwrap()),
-        None => { 
-            println!("Impossible to get your home dir!");
-            process::exit(0);
-        },
-    };
+    let ringtone_file = BufReader::new(File::open(ringtone_file_location).unwrap());
 
     // Decode that sound file into a source
     let source = Decoder::new(ringtone_file).unwrap();
