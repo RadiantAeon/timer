@@ -19,6 +19,7 @@ fn main() {
     
         // Read a single byte and discard
         stdin.read(&mut [0u8]).unwrap();
+        process::exit(0);
     }
     
     // get timer duration
