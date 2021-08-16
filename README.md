@@ -1,2 +1,2 @@
 # timer
-a simple timer written using rust
+Simple timers in various languages
